@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class Gate : MonoBehaviour, Tickable {
 
-	public List<Node> nodes;
+    public long id;
+
+	public HashSet<Node> nodes;
 
 	// Use this for initialization
 	void Start () {

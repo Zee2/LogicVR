@@ -9,6 +9,11 @@ namespace Utilities {
 		Output = 1,
 		Bidirectional = 2,
 	}
+
+    interface ISleepable{
+        void Sleep();
+        void Wake();
+    }
 	
 }
 

@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Utilities;
 
-public class Node : MonoBehaviour, Tickable {
-
-	List<Node> connectedNodes = new List<Node>();
-
+public class Node : MonoBehaviour {
+    
+    public long id;
 	public NodeIdentifier type;
 	ushort lastBit;
 	public ushort currentBit;
@@ -39,9 +38,7 @@ public class Node : MonoBehaviour, Tickable {
 	}
 
 	public void Tick(){
-		foreach(Node n in connectedNodes){
-			n.SetBit(currentBit);
-		}
+		
 	}
 	
 }

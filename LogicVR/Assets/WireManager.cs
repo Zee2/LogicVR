@@ -5,7 +5,6 @@ using UnityEngine;
 public class WireManager : MonoBehaviour {
 
 	public GameObject segmentPrefab;
-	public Wire wireObject;
 	// Use this for initialization
 	void Start () {
 		
