@@ -1,3 +1,5 @@
+![Logo](VRLogo1.jpg)
+
 # LogicVR
 
 A work in progress educational logic circuit simulator for UnityXR/Windows Mixed Reality. Initial support will be made for Windows Mixed Reality, with compatibility for SteamVR/Vive/Oculus coming later.
