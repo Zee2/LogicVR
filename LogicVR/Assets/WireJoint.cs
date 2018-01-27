@@ -9,10 +9,10 @@ public class WireJoint : MonoBehaviour, ISleepable {
     Transform thisTransform;
 
 
-    public void Start()
+    public void Awake()
     {
         thisTransform = transform;
-        weldTarget = transform;
+        
     }
 
     public void Weld(Transform t)
@@ -37,6 +37,7 @@ public class WireJoint : MonoBehaviour, ISleepable {
 
     private void Update()
     {
-        thisTransform.position = weldTarget.position;
+        if(weldTarget != null)
+            thisTransform.position = weldTarget.position;
     }
 }

@@ -55,7 +55,7 @@ GameObject:
   - component: {fileID: 23846036451993248}
   m_Layer: 0
   m_Name: Model
-  m_TagString: Untagged
+  m_TagString: Segment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -240,8 +240,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80ca4610cad2ffe498394d193c53e3f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startpoint: {fileID: 4775323367143804}
-  endpoint: {fileID: 4492469893491472}
+  startpoint: {fileID: 0}
+  endpoint: {fileID: 0}
   model: {fileID: 4952789734560236}
   container: {fileID: 4079179198038544}
   backupStart: {fileID: 0}

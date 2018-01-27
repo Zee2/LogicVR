@@ -9,6 +9,7 @@ public class PrototypeWiringTool : AttachToController {
     public Transform manipulationPoint;
     public GameObject wirePrefab;
     WireJoint currentJoint = null;
+    ToolSpinner spinner = null;
     enum WiringMode
     {
         NotEngaged,
@@ -36,7 +37,7 @@ public class PrototypeWiringTool : AttachToController {
             if(currentJoint == null)
             {
                 Debug.Log("No joint current selected.");
-                Collider[] colls = Physics.OverlapSphere(manipulationPoint.position, 0.2f);
+                Collider[] colls = Physics.OverlapSphere(manipulationPoint.position, 0.05f);
                 Debug.Log("Found " + colls.Length + " colliders");
                 bool foundJoint = false;
                 foreach(Collider c in colls)
@@ -54,10 +55,29 @@ public class PrototypeWiringTool : AttachToController {
                 }
                 if (!foundJoint)
                 {
-                    Wire wire = (Instantiate(wirePrefab, manipulationPoint.position, Quaternion.identity, null) as GameObject).GetComponent<Wire>();
-                    WireSegment newSegment = wire.CreateSegmentFresh(manipulationPoint.position);
-                    currentJoint = newSegment.endpoint;
-                    currentJoint.Weld(manipulationPoint);
+                    bool foundSegment = false;
+                    foreach (Collider c in colls)
+                    {
+                        if (c.CompareTag("Segment"))
+                        {
+                            WireSegment ws = c.GetComponentInParent<WireSegment>();
+                            Wire w = c.GetComponentInParent<Wire>();
+                            currentJoint = w.ExtendAtPoint(manipulationPoint.position, ws).endpoint;
+                            currentJoint.Weld(manipulationPoint);
+                            foundSegment = true;
+                            break;
+                        }
+
+                    }
+                    if(foundSegment == false)
+                    {
+                        //Create new wire and new segment.
+                        Wire wire = (Instantiate(wirePrefab, manipulationPoint.position, Quaternion.identity, null) as GameObject).GetComponent<Wire>();
+                        WireSegment newSegment = wire.CreateSegmentFresh(manipulationPoint.position);
+                        currentJoint = newSegment.endpoint;
+                        currentJoint.Weld(manipulationPoint);
+                    }
+                    
                 }
                 
             }
@@ -68,9 +88,23 @@ public class PrototypeWiringTool : AttachToController {
                 currentJoint = null;
             }
         }
-        else
+        else if(obj.state.source.handedness == handedness && obj.pressType == InteractionSourcePressType.Touchpad)
         {
-            Debug.Log("Wrong input");
+            Debug.Log(obj.state.touchpadPressed);
+            float thumbPosition = obj.state.touchpadPosition.x;
+            Debug.Log(thumbPosition);
+            if (spinner == null)
+            {
+                Debug.LogWarning("Null spinner");
+            }
+            if (thumbPosition > 0.4f)
+            {
+                Debug.Log("Spinning right");
+                spinner.SpinRight();
+            }else if (thumbPosition < -0.4f)
+            {
+                spinner.SpinLeft();
+            }
         }
     }
 
@@ -78,7 +112,7 @@ public class PrototypeWiringTool : AttachToController {
 
     // Use this for initialization
     void Start () {
-		
+        spinner = GetComponentInChildren<ToolSpinner>();
 	}
 	
 	// Update is called once per frame
